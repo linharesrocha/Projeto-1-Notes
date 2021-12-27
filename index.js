@@ -8,9 +8,14 @@ app.engine('handlebars', engine())
 app.set('view engine', 'handlebars');
 app.use(express.static('public'));
 
+const notesRoutes = require("./routes/notes")
+
 app.get("/", (req, res) => {
     res.render('home')
-})
+});
+
+
+app.use("/notes", notesRoutes);
 
 
 app.listen(port, () => {
