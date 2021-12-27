@@ -4,9 +4,14 @@ const { engine } = require('express-handlebars')
 const app = express();
 const port = 8000;
 
+const db = require("./db/connection")
+
 app.engine('handlebars', engine())
 app.set('view engine', 'handlebars');
 app.use(express.static('public'));
+
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 
 const notesRoutes = require("./routes/notes")
 
@@ -18,6 +23,13 @@ app.get("/", (req, res) => {
 app.use("/notes", notesRoutes);
 
 
-app.listen(port, () => {
-    console.log(`Servidor rodando na porta ${port}`);
+db.initDb((err, db) => {
+    if(err) {
+        console.log(err);
+    }else {
+        console.log("O banco conectou com sucesso!");
+        app.listen(port, () => {
+            console.log(`Projeto rodando na porta: ${port}`);
+        })
+    }
 })
