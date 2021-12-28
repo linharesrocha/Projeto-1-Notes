@@ -36,6 +36,17 @@ router.post("/", (req, res) => {
     res.redirect("/");
 });
 
+router.post("/update", (req, res) => {
+    const data = req.body;
+    const id = new ObjectId(data.id);
+    const title = data.title;
+    const description = data.description;
+
+    db.getDb().db().collection("notes").updateOne({ _id: id}, {$set: {title: title, description: description}});
+
+    res.redirect("/")
+});
+
 router.post("/delete", (req, res) => {
     const data = req.body;
     const id = new ObjectId(data.id);
