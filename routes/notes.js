@@ -18,6 +18,15 @@ router.post("/", (req, res) => {
     .insertOne({ title: title, description: description});
 
     res.redirect("/");
-})
+});
+
+router.post("/delete", (req, res) => {
+    const data = req.body;
+    const id = new ObjectId(data.id);
+
+    db.getDb().db().collection("notes").deleteOne({_id: id});
+
+    res.redirect("/")
+});
 
 module.exports = router;
